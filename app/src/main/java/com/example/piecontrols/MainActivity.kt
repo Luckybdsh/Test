@@ -141,10 +141,7 @@ class MainActivity : AppCompatActivity() {
         val rootFrame = FrameLayout(this).apply {
             setBackgroundColor(Color.parseColor("#09090D"))
         }
-
-        val bubbleBg = BubbleBackgroundView(this)
-        rootFrame.addView(bubbleBg, FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))
-
+        
         // HOME PAGE
         homeScroll = ScrollView(this).apply {
             isFillViewport = true
@@ -706,78 +703,5 @@ class MainActivity : AppCompatActivity() {
 
         card.addView(proLabel); card.addView(title); card.addView(desc); card.addView(manageBtn)
         return card
-    }
-}
-
-    
-
-// =======================================================================
-// VISIBLE BUBBLE PHYSICS ENGINE
-// =======================================================================
-
-class BubbleBackgroundView(context: Context) : View(context) {
-
-    private data class Bubble(var x: Float, var y: Float, var r: Float, var dx: Float, var dy: Float)
-    private val bubbles = mutableListOf<Bubble>()
-    
-    private val fillPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = Color.parseColor("#181822"); style = Paint.Style.FILL }
-    private val strokePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = Color.parseColor("#38384C"); style = Paint.Style.STROKE; strokeWidth = 3.5f }
-    private val sheenPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply { color = Color.parseColor("#18FFFFFF"); style = Paint.Style.FILL }
-
-    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
-        super.onSizeChanged(w, h, oldw, oldh)
-        bubbles.clear()
-        if (w == 0 || h == 0) return
-        
-        for (i in 0 until 15) {
-            val radius = 55f + (Math.random() * 110f).toFloat()
-            val x = radius + (Math.random() * (w - 2f * radius)).toFloat()
-            val y = radius + (Math.random() * (h - 2f * radius)).toFloat()
-            val dx = (if (Math.random() > 0.5) 1f else -1f) * (0.35f + (Math.random() * 1.1f).toFloat())
-            val dy = (if (Math.random() > 0.5) 1f else -1f) * (0.35f + (Math.random() * 1.1f).toFloat())
-            bubbles.add(Bubble(x, y, radius, dx, dy))
-        }
-    }
-
-    override fun onDraw(canvas: Canvas) {
-        super.onDraw(canvas)
-
-        for (i in bubbles.indices) {
-            val b = bubbles[i]
-            b.x += b.dx
-            b.y += b.dy
-
-            if (b.x - b.r < 0) { b.x = b.r; b.dx *= -1f }
-            if (b.x + b.r > width) { b.x = width - b.r; b.dx *= -1f }
-            if (b.y - b.r < 0) { b.y = b.r; b.dy *= -1f }
-            if (b.y + b.r > height) { b.y = height - b.r; b.dy *= -1f }
-
-            for (j in i + 1 until bubbles.size) {
-                val b2 = bubbles[j]
-                val diffX = b.x - b2.x
-                val diffY = b.y - b2.y
-                val distSq = diffX * diffX + diffY * diffY
-                val minDist = b.r + b2.r
-                
-                if (distSq < minDist * minDist) {
-                    val tempDx = b.dx; val tempDy = b.dy
-                    b.dx = b2.dx; b.dy = b2.dy
-                    b2.dx = tempDx; b2.dy = tempDy
-                    
-                    val dist = Math.sqrt(distSq.toDouble()).toFloat()
-                    val overlap = minDist - dist
-                    if (dist > 0f) {
-                        val nx = diffX / dist; val ny = diffY / dist
-                        b.x += nx * (overlap / 2f); b.y += ny * (overlap / 2f)
-                        b2.x -= nx * (overlap / 2f); b2.y -= ny * (overlap / 2f)
-                    }
-                }
-            }
-
-            canvas.drawCircle(b.x, b.y, b.r, fillPaint)
-            canvas.drawCircle(b.x, b.y, b.r, strokePaint)
-            canvas.drawCircle(b.x - b.r * 0.32f, b.y - b.r * 0.32f, b.r * 0.22f, sheenPaint)
-        }
-        invalidate()
     }
 }

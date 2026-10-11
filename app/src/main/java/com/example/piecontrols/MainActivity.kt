@@ -139,7 +139,7 @@ class MainActivity : AppCompatActivity() {
         prefs = getSharedPreferences("PiePrefs", Context.MODE_PRIVATE)
 
         val rootFrame = FrameLayout(this).apply {
-            setBackgroundColor(Color.parseColor("#09090B"))
+            setBackgroundColor(Color.parseColor("#09090D"))
         }
 
         val bubbleBg = BubbleBackgroundView(this)

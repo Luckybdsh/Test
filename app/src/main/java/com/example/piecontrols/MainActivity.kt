@@ -443,6 +443,7 @@ class MainActivity : AppCompatActivity() {
             setBackgroundColor(Color.parseColor("#2979FF"))
             setTextColor(Color.WHITE)
             setOnClickListener { showAppPicker() }
+            cornerRadius=16f
         }
         
         panel.addView(selectedAppLabel)

@@ -6,8 +6,8 @@ Built natively in Kotlin using `WindowManager` and `AccessibilityService` APIs, 
 
 ##📱screenshots 
 
-<img src="app/assets/solid.png" alt="App Dashboard" width="300">
-<img src="app/assets/neon.png" alt="App Dashboard" width="300">
+<img src="app/assets/solid.png" alt="App Dashboard" width="48%">
+<img src="app/assets/neon.png" alt="App Dashboard" width="48%">
 <img src="app/assets/glass.png" alt="App Dashboard" width="300">
 <img src="app/assets/home.png" alt="App Dashboard" width="300">
 <img src="app/assets/adjust.png" alt="App Dashboard" width="300">

@@ -216,7 +216,7 @@ class MainActivity : AppCompatActivity() {
             addView(settingsButton)
         }
 
-    /*private fun createHeroCard(): View =
+    private fun createHeroCard(): View =
         LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
             setPadding(dp(22), dp(22), dp(22), dp(22))
@@ -242,7 +242,7 @@ class MainActivity : AppCompatActivity() {
                 ))
             }
             addView(progressRow)
-        }*/
+        }
 
     private fun createQuickActions(): View =
         LinearLayout(this).apply {

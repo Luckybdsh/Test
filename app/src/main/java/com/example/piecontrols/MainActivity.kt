@@ -223,7 +223,7 @@ class MainActivity : AppCompatActivity() {
             background = rounded(Coral.selected, radius = 28f)
             layoutParams = LinearLayout.LayoutParams(-1, -2).apply { bottomMargin = dp(12) }
             addView(text("TACTILE MOMENTUM", 11f, Coral.primary, true))
-            addView(text("Your controls,\your flow.", 29f, "#FED9E4", true).apply {
+            addView(text("Your controls,\\nin your flow.", 29f, "#FED9E4", true).apply {
                 setPadding(0, dp(10), 0, dp(8))
             })
             addView(text(

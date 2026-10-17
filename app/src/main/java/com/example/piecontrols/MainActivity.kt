@@ -52,19 +52,28 @@ class MainActivity : AppCompatActivity() {
 
     private data class TileData(val id: Int, val name: String)
 
-    // Flowspace Coral palette. Colors are centralized here for easy theme tuning.
+    // Flowspace Coral palette — dynamically switches between Light and Dark M3 Expressive tones.
     private object Coral {
-        const val background = "#181213"
-        const val surface = "#241E20"
-        const val surfaceHigh = "#2E282A"
-        const val selected = "#7D2649"
-        const val primary = "#FEB1C9"
-        const val onPrimary = "#620833"
-        const val text = "#E8E1E3"
-        const val muted = "#D4C2C7"
-        const val outline = "#514347"
-        const val success = "#8BCFA5"
-        const val error = "#F2B8B5"
+        var isDark = false
+
+        val background get() = if (isDark) "#160F12" else "#FFFAFA"
+        val surface get() = if (isDark) "#24191D" else "#FFEDF1"
+        val surfaceHigh get() = if (isDark) "#35252B" else "#E4BDC8"
+        val selected get() = if (isDark) "#6E4353" else "#926878"
+        val primary get() = if (isDark) "#FF85A6" else "#B24465"
+        val onPrimary get() = if (isDark) "#2D0815" else "#FFFFFF"
+        val text get() = if (isDark) "#FCE8ED" else "#140707"
+        val muted get() = if (isDark) "#BFA3AB" else "#4A3239"
+        val outline get() = if (isDark) "#4F3941" else "#D9C2C7"
+        val success get() = if (isDark) "#66BB88" else "#4BB68B"
+        val error get() = if (isDark) "#F2B8B5" else "#D32F2F"
+    }
+
+    private fun toggleTheme() {
+        val newDarkState = !Coral.isDark
+        Coral.isDark = newDarkState
+        prefs.edit().putBoolean("PREF_DARK_THEME", newDarkState).apply()
+        recreate()
     }
 
     private fun color(value: String) = Color.parseColor(value)
@@ -121,6 +130,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         prefs = getSharedPreferences("PiePrefs", Context.MODE_PRIVATE)
+        Coral.isDark = prefs.getBoolean("PREF_DARK_THEME", false)
 
         val root = FrameLayout(this).apply {
             setBackgroundColor(color(Coral.background))
@@ -189,7 +199,7 @@ class MainActivity : AppCompatActivity() {
             val mark = TextView(this@MainActivity).apply {
                 text = "◉"
                 textSize = 27f
-                setTextColor(color(Coral.primary))
+                setTextColor(color("#FED9E4"))
                 gravity = Gravity.CENTER
                 background = rounded(Coral.selected, radius = 16f)
                 layoutParams = LinearLayout.LayoutParams(dp(52), dp(52)).apply {
@@ -209,9 +219,10 @@ class MainActivity : AppCompatActivity() {
                 gravity = Gravity.CENTER
                 setTextColor(color(Coral.text))
                 background = rounded(Coral.surfaceHigh, radius = 24f)
-                contentDescription = "Open settings"
+                contentDescription = "Switch theme"
                 layoutParams = LinearLayout.LayoutParams(dp(48), dp(48))
-                setOnClickListener { switchTab(false) }
+                // Removed switchTab(false) and added theme toggle action
+                setOnClickListener { toggleTheme() }
             }
             addView(settingsButton)
         }
@@ -222,8 +233,8 @@ class MainActivity : AppCompatActivity() {
             setPadding(dp(22), dp(22), dp(22), dp(22))
             background = rounded(Coral.selected, radius = 28f)
             layoutParams = LinearLayout.LayoutParams(-1, -2).apply { bottomMargin = dp(12) }
-            addView(text("TACTILE MOMENTUM", 11f, Coral.primary, true))
-            addView(text("Your controls,\\nin your flow.", 29f, "#FED9E4", true).apply {
+            addView(text("TACTILE MOMENTUM", 11f, "#FED9E4", true))
+            addView(text("Your controls,\nin your flow.", 29f, "#FED9E4", true).apply {
                 setPadding(0, dp(10), 0, dp(8))
             })
             addView(text(

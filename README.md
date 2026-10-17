@@ -8,6 +8,9 @@ Built natively in Kotlin using `WindowManager` and `AccessibilityService` APIs, 
 
 <img src="app/assets/Screenshot_20261008-114603_Chrome.png" alt="App Dashboard" width="300">
 <img src="app/assets/Screenshot_20261016-182720_Pie Controls.png" alt="App Dashboard" width="300">
+<img src="app/assets/Screenshot_20261008-114603_Chrome.png" alt="App Dashboard" width="300">
+<img src="app/assets/Screenshot_20261008-114603_Chrome.png" alt="App Dashboard" width="300">
+<img src="app/assets/Screenshot_20261008-114603_Chrome.png" alt="App Dashboard" width="300">
 
 
 ## ✨ Key Features
